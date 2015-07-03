@@ -95,6 +95,7 @@ static void info_show_help(void)
 	  " --p=STRING : Display STRING.\n"
 	  " --Tf       : Display current track time (in frames)\n"
 	  " --Ts       : Display current track time (in seconds)\n"
+	  " --Tm       : Display current track time (in milliseconds)\n"
 	  " --Tx       : Display current track time (formatted)\n"
 	  " --AT       : Launch auto time calculation.\n"
 	  " STRING     : Display STRING.\n"
@@ -350,84 +351,14 @@ static unsigned int nsf_calc_time(nsf_t * src,
     }
     result1 = last_accessed_frame + 16 /* fudge room */;
     sec = (float)(result1 + nsf->playback_rate - 1) / (float)nsf->playback_rate;
-    //printf("track %d with intro is %u frames, %.2f seconds\n",
-	//track, result1, sec);
-
-    // doesn't make a difference
-    //nsf->cur_frame = last_accessed_frame;
   }
 
-  /* clear out the memory access information.  This is a kludge
-     because I, matt s, don't totally understand what ben is doing! 
-     max_access information is collected in src/cpu/nes6502/nes6502.c */
-  {
-    int a;
-    for(a = 0; a < NES6502_NUMBANKS; a++)
-    {
-	//msg("max_access[%d] = %d\n", a, max_access[a]);
-  	memset(acc_nes6502_banks[a], 0, max_access[a]);
-    }
-  }
-
-  //msg("starting second run\n");
-
-  /* This finds the length of the song _without_ the intro. -matt s */
-  {
-    /* don't want to count what we've already looked at */
-    int starting_frame = nsf->cur_frame; 
-
-    int done = 0;
-    uint32 last_accessed_frame = 0, prev_frag = 0;
-
-    //msg("nsfinfo : Emulating up to %u frames (%d hz)\n", frame_frag, playback_rate);
-
-    while (!done) 
-    {
-      nsf_frame(nsf); /* advance one frame. -matt s. */
-
-      //msg("%d ", nsf->cur_frame - starting_frame);
-      if (nes6502_mem_access)
-      {
-        //msg("!");
-	last_accessed_frame = nsf->cur_frame;
-      }
-      //msg("\n");
-
-      if (nsf->cur_frame > frame_frag) 
-      {
-        if (last_accessed_frame > prev_frag) 
-        {
-	  prev_frag = nsf->cur_frame;
-	  frame_frag += default_frag_size;
-	  //msg("nsfinfo : memory was accessed, enlarging search to next %u frames\n",
-	  //    default_frag_size);
-	  
-          if (frame_frag >= max_frag) 
-          {
-	    msg("\nnsfinfo : unable to find end of music within %u frames\n\tgiving up!", max_frag);
-	    goto error;
-	  }
-	} 
-        else 
-	  done = 1;
-      }
-    }
-    result2 = last_accessed_frame - starting_frame + 16 /* fudge room */;
-    sec = (float)(result2 + nsf->playback_rate - 1) / (float)nsf->playback_rate;
-    //printf("track %d without intro is %u frames, %.2f seconds\n",
-//	track, result2, sec);
-  }
-
-  /* Want to get both results back to nosefart.  Neither should be 
-     larger than 2^16, so let's shove them together into one int.
-     the high order bits are result1 (with intro) and the lower order
-     bits are result2 (without intro) */
-	return (result1 * 0x1000 + result2);
+  return result1;
 
  error:
   nsf_free(&nsf);
   fprintf(stderr, "Error with time calculation, bailing out!\n");
-  return 0x00000001; /* something small, but non-zero (zero means unlimited) */
+  return 0;
 }
 
 
@@ -738,6 +669,7 @@ int main(int na, char **a)
       }
     } else if (!strcmp(arg,"--Tf")
 	       ||!strcmp(arg,"--Ts")
+	       ||!strcmp(arg,"--Tm")
 	       || !strcmp(arg,"--Tx")) {
       unsigned int time;
 
@@ -753,10 +685,13 @@ int main(int na, char **a)
 	printf("%u",time);
       } else {
 	unsigned int frame_rate = nsf_playback_rate(nsf);
-	unsigned int sec = (time + frame_rate - 1) / frame_rate;
+	unsigned int msec = (time + frame_rate - 1) * 1000.0 / frame_rate;
 	if (arg[3] == 's') {
-	  printf("%u",sec);
+	  printf("%u",msec / 1000);
+	} else if (arg[3] == 'm') {
+	  printf("%u",msec);
 	} else {
+	  unsigned int sec = msec / 1000;
 	  printf("%02u:%02u",sec/60u,sec%60u);
 	}
       }
