@@ -226,7 +226,7 @@ double mypow(float base, int power)
 	int ans = 1, k;
 	
 	for( k = 0; k < power; k++)
-		ans *= base;
+		ans *= (int)base;
 	
 	return ans;
 }
@@ -663,7 +663,7 @@ static int OPLOpenTable( void )
 	for (i=0; i<EG_ENT; i++)
 	{
 		/* ATTACK curve */
-		pom = mypow( ((double)(EG_ENT-1-i)/EG_ENT) , 8 ) * EG_ENT;
+		pom = (float)mypow( ((double)(EG_ENT-1-i)/EG_ENT) , 8 ) * EG_ENT;
 		/* if( pom >= EG_ENT ) pom = EG_ENT-1; */
 		ENV_CURVE[i] = (int)pom;
 		/* DECAY ,RELEASE curve */

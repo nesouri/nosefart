@@ -1,7 +1,18 @@
-I don't know what you do to install the Winamp plugin, but I suspect that
-you run "winamp_innsf192.exe".  I have no idea how to compile it.  If you
-manage either, please contact me, Matthew Strait, at
-straitm@mathcs.carleton.edu
+INSTALLATION
+
+To install the plugin, put in_nsf.dll in your Winamp plugins folder
+(probably something like C:\Program Files\Winamp\Plugins\) and restart 
+Winamp.  It should work with Winamp 2.x and 5.x.
+
+
+COMPILING
+
+The plugin can be compiled with at least Microsoft Visual C++ 6 and probably
+open source tools as well.  If you got just this file and the DLL, you can
+download the source from http://sf.net/projects/nosefart
+
+
+**************************************************************************
 
 Below is Matt Conte's original readme file for the Winamp plugin.
 

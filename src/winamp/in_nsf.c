@@ -28,6 +28,7 @@
 #include <shellapi.h>
 #include "resource.h"
 #include "winamp.h"
+#include <stdlib.h>
 
 /* NSF specific stuff */
 #include "types.h"
@@ -518,10 +519,7 @@ BOOL CALLBACK AboutDlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
             EndDialog(hwnd, 0);
             break;
          case IDC_WWWNOFRENDO:
-            ShellExecute(hwnd, NULL, "http://www.nofrendo.org", NULL, NULL, 0);
-            break;
-         case IDC_NOSEFARTSITE:
-            ShellExecute(hwnd, NULL, "http://www.unc.edu/~thackett/nose.html", NULL, NULL, 0);
+            ShellExecute(hwnd, NULL, "http://nosefart.sourceforge.net", NULL, NULL, 0);
             break;
          }
       }

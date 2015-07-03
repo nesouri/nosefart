@@ -433,6 +433,7 @@ static unsigned int nsf_playback_rate(nsf_t *nsf)
       else
          nsf->playback_rate = 60; /* 60 Hz */
    }
+   return 0;
 }
 
 static void nsf_setup(nsf_t *nsf)

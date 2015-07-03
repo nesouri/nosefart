@@ -43,8 +43,8 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /c
-# ADD CPP /nologo /W3 /WX /O2 /I "src" /I "src\cpu\nes6502" /I "src\machine" /I "src\sndhrdw" /I "src\winamp" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "LITTLE_ENDIAN" /D "NSF_PLAYER" /FD /c
-# SUBTRACT CPP /YX
+# ADD CPP /nologo /W3 /O2 /I "src" /I "src\cpu\nes6502" /I "src\machine" /I "src\sndhrdw" /I "src\winamp" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "LITTLE_ENDIAN" /D "NSF_PLAYER" /FD /c
+# SUBTRACT CPP /WX /YX
 # ADD BASE MTL /nologo /D "NDEBUG" /win32
 # ADD MTL /nologo /I "." /I "src" /I ".." /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib msvcrt.lib /nologo /subsystem:windows /dll /machine:I386 /nodefaultlib /out:"C:/progra~1/winamp/plugins/in_nsf.dll"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib msvcrt.lib /nologo /subsystem:windows /dll /machine:I386 /nodefaultlib /out:"in_nsf.dll"
 # SUBTRACT LINK32 /debug
 
 !ELSEIF  "$(CFG)" == "in_nsf - Win32 Debug"
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib /nologo /subsystem:windows /dll /debug /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib msvcrt.lib /nologo /subsystem:windows /dll /debug /machine:I386 /nodefaultlib /out:"C:/progra~1/winamp/plugins/in_nsf.dll"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib msvcrt.lib /nologo /subsystem:windows /dll /debug /machine:I386 /nodefaultlib /out:"in_nsf.dll"
 
 !ENDIF 
 

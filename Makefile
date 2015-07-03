@@ -13,7 +13,7 @@ WANT_DEBUG=TRUE
 # Acting on the configuration
 
 NAME = nosefart
-VERSION = 2.2-mls
+VERSION = 2.3-mls
 
 BUILDTOP = nsfobj
 BUILDDIR = $(BUILDTOP)/build

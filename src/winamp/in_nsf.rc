@@ -52,20 +52,28 @@ END
 // Dialog
 //
 
-IDD_ABOUT DIALOG DISCARDABLE  0, 0, 148, 223
+IDD_ABOUT DIALOG DISCARDABLE  0, 0, 260, 223
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About Nosefart"
 FONT 8, "MS Sans Serif"
 BEGIN
-    CTEXT           " nosefart NSF winamp plug-in\ncopyleft two grand shady matt conte ",
-                    IDC_ABOUT_EDIT,7,32,134,17
-    CONTROL         102,IDC_STATIC,"Static",SS_BITMAP | SS_SUNKEN,41,7,65,21
-    DEFPUSHBUTTON   "&Close",IDCLOSE,41,202,65,16
-    GROUPBOX        "nosefart web links",IDC_STATIC,7,148,134,51,BS_CENTER
-    PUSHBUTTON      "&nosefart home page",IDC_WWWNOFRENDO,28,162,93,14
-    CONTROL         106,IDC_STATIC,"Static",SS_BITMAP,7,50,133,94
-    PUSHBUTTON      "&real-life nosefarts in action",IDC_NOSEFARTSITE,29,180,
-                    92,14
+    CONTROL         102,IDC_STATIC,"Static",SS_BITMAP | SS_SUNKEN,15,17,65,
+                    21
+    DEFPUSHBUTTON   "&Close",IDCLOSE,99,202,65,16
+    PUSHBUTTON      "&nosefart home page",IDC_WWWNOFRENDO,150,21,93,14
+    GROUPBOX        "",IDC_STATIC,7,7,246,39
+    CTEXT           "A Nintendo® Entertainment System music player plugin",
+                    IDC_STATIC,7,75,246,8
+    LTEXT           "for Winamp 2.x and 5.x",IDC_STATIC,89,86,74,8
+    LTEXT           "Copyright © 2000 Matthew Conte",IDC_STATIC,21,134,106,8
+    LTEXT           "With contributions from:",IDC_STATIC,21,158,75,8
+    LTEXT           "Matthew Strait <quadong@users.sf.net>   (2002-2004)",
+                    IDC_STATIC,45,169,172,8
+    LTEXT           "K`rai  (2004)",IDC_STATIC,45,181,39,8
+    LTEXT           "Licensed under the GNU GPL version 2",IDC_STATIC,67,103,
+                    126,8
+    LTEXT           "http://nosefart.sourceforge.net/",IDC_STATIC,80,50,102,
+                    8
 END
 
 IDD_CONFIG DIALOG DISCARDABLE  0, 0, 166, 165
@@ -140,7 +148,7 @@ BEGIN
     IDD_ABOUT, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 141
+        RIGHTMARGIN, 253
         TOPMARGIN, 7
         BOTTOMMARGIN, 218
     END
@@ -170,7 +178,52 @@ END
 //
 
 IDB_Nosefart            BITMAP  DISCARDABLE     "nosefart.bmp"
-IDB_BLADE               BITMAP  DISCARDABLE     "blade256.bmp"
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 2,3,0,0
+ PRODUCTVERSION 2,3,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Distributed under the GNU GPL.  http://nosefart.sourceforge.net\0"
+            VALUE "CompanyName", " \0"
+            VALUE "FileDescription", "in_nsf\0"
+            VALUE "FileVersion", "2, 2, 0, 0\0"
+            VALUE "InternalName", "in_nsf\0"
+            VALUE "LegalCopyright", "Copyright © 2004 Matt Conte\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "in_nsf.dll\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "  in_nsf\0"
+            VALUE "ProductVersion", "2, 2, 0, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

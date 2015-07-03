@@ -32,7 +32,7 @@
 #define  APP_STRING     "Nofrendo"
 #endif /* NSF_PLAYER */
 
-#define  APP_VERSION    "1.92c-mls"
+#define  APP_VERSION    "2.3-mls"
 
 #endif /* _VERSION_H_ */
 

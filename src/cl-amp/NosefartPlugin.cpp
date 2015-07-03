@@ -9,7 +9,7 @@
 
 
 NosefartPlugin::NosefartPlugin (PluginConstructorStruct *info)
-	: InputPlugin ("Nosefart 1.92", "Nosefart NSF Player by Matthew Conte "
+	: InputPlugin ("Nosefart 2.3", "Nosefart NSF Player by Matthew Conte "
 				   "(plugin by Eli Dayan)")
 {
 	fNsf = NULL;
