@@ -629,7 +629,7 @@ create_error_window (void)
   dialog_vbox2 = GTK_DIALOG (error_window)->vbox;
   gtk_widget_show (dialog_vbox2);
 
-  label14 = gtk_label_new (_("The requested file wasn't found or it wasn't an NSF file."));
+  label14 = gtk_label_new (_("The requested file wasn't found or it wasn't an NSF file, or your installation is broken (check that the program \"nosefart\" is installed)."));
   gtk_widget_show (label14);
   gtk_box_pack_start (GTK_BOX (dialog_vbox2), label14, FALSE, FALSE, 0);
   gtk_label_set_line_wrap (GTK_LABEL (label14), TRUE);

@@ -238,9 +238,23 @@ static void init_hardware(void)
 {
    int stereo = 0;
    int param, retval, logDataSize;
-   int format = bits; /*AFMT_U8, AFMT_U16LE;*/
+   int format;
+   
+   switch(bits)
+   {
+   case 8:
+      format = AFMT_U8;
+      break;
+   case 16:
+      format = AFMT_S16_NE;
+      break;
+   default:
+      printf("Bad sample depth: %i\n", bits);
+      exit(1);
+   }
+   
    /* sound buffer */
-   dataSize = freq / nsf->playback_rate;
+   dataSize = freq / nsf->playback_rate * (bits / 8);
 
    /* Configure the DSP */
    logDataSize = -1;
@@ -308,6 +322,7 @@ static void show_help(void)
    printf("\n\t-d x\tUse device x (default: /dev/dsp)\n");
    printf("\t-s x\tPlay at x times the normal speed.\n");
    printf("\t-f x\tUse x sampling rate (default: 44100)\n");
+   printf("\t-B x\tUse sample size of x bits (default: 8)\n");
    printf("\t-l x\tLimit total playing time to x seconds (0 = unlimited)\n");
    printf("\t-r x\tLimit total playing time to x frames (0 = unlimited)\n");
    printf("\t-b x\tSkip the first x frames\n");
@@ -532,9 +547,10 @@ static void play(char * filename, int track, int doautocalc, int reps, int start
 
       /* don't waste time if skipping frames (this check speeds it up a lot) */
       if(frames >= starting_frame)
-         apu_process(bufferPos, dataSize);
-
+         apu_process(bufferPos, dataSize / (bits / 8));
+      
       bufferPos += dataSize;
+      
       if(bufferPos >= buffer + bufferSize)
       {
          if(frames >= starting_frame)
@@ -576,7 +592,7 @@ int main(int argc, char **argv)
    float speed_multiplier = 1;
 
    /* parse options */
-   const char *opts = "123456hvid:t:f:s:l:r:b:a:";
+   const char *opts = "123456hvid:t:f:B:s:l:r:b:a:";
 
    plimit_frames = (int *)malloc(sizeof(int));
    plimit_frames[0] = 0;
@@ -604,6 +620,9 @@ int main(int argc, char **argv)
          break;
       case 'f':
          freq = strtol(optarg, 0, 10);
+         break;
+      case 'B':
+         bits = strtol(optarg, 0, 10);
          break;
       case 's':
 	 speed_multiplier = atof(optarg);

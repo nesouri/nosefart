@@ -1,3 +1,9 @@
+2.7-mls
+
+Added 16-bit fixes and -B switch to Linux nosefart by Chris King.
+
+Improved gnosefart error message given when nosefart isn't found.
+
 2.6-mls
 
 Updated gnosefart to 1.4.
