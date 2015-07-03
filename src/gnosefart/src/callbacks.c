@@ -169,6 +169,13 @@ void intro_readfromnosefart()
 			if(filename) free(filename);
 			filename = NULL;
 			return;
+		}else if(!strncmp("Error opening", foo, strlen("Error opening"))){
+			free(foo); foo = NULL;
+			filename = NULL;
+			if(!error) error = create_error_window();
+			fprintf(stderr, "PLAYPLAYPLAYPLAYPLAY\n"); // XXX ?
+			gtk_widget_show(error);
+			return;
 		}else{
 			free(foo); foo = NULL;
 		}
@@ -259,7 +266,7 @@ void getnumtracksandhandleit()
 	strcpy(tempfn, "/tmp/nosefart.XXXXXX");
 	mkstemp(tempfn);
 
-	snprintf(cmd, 254, "nosefart -i %s | grep Number | cut -d: -f2 > %s", filename, tempfn);
+	snprintf(cmd, 254, "nosefart -i '%s' | grep Number | cut -d: -f2 > %s", filename, tempfn);
 	system(cmd);
 
 	tempfile = fopen(tempfn, "r");
@@ -281,7 +288,7 @@ int fileisgood(char * filename)
 
 	if(-1 == stat(filename, &scratchstat))
 		return 0;
-	snprintf(cmd, 254, "nosefart -i %s > /dev/null", filename);
+	snprintf(cmd, 254, "nosefart -i '%s' > /dev/null", filename);
 	if(system(cmd))
 		return 0;
 	return 1;
@@ -515,7 +522,7 @@ void open_pushed(GtkButton *button, gpointer user_data)
 void savedirectory(char * filename)
 {
 	char cmd[1024];
-	snprintf(cmd, 1023, "echo `dirname %s`/ > ~/.gnosefart", filename);
+	snprintf(cmd, 1023, "echo `dirname '%s'`/ > ~/.gnosefart", filename);
 	system(cmd);
 }
 
