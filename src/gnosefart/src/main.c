@@ -49,6 +49,7 @@ extern GtkWidget * nferror;
 
 #define NEEDNFVERSION "2.2"
 
+// only ever run once
 void gnosefart_init(int argc, char ** argv)
 {
 	/* Check for the existance and version of nosefart.
@@ -62,11 +63,11 @@ void gnosefart_init(int argc, char ** argv)
 		gtk_widget_show(nferror);		
 	}
 
-
 	if(argc > 1)
 	{	
-		filename = argv[1];
-	        if(oldfilename) free(oldfilename);
+		filename = (char *)malloc(strlen(argv[1])+1);
+		strcpy(filename, argv[1]);
+
 	        oldfilename = (gchar *)malloc(strlen(filename) + 1);
 	        strcpy(oldfilename, filename);
 

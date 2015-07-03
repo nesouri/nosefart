@@ -1,3 +1,12 @@
+2.5-mls 
+
+Added some lines to src/machine/nsf.c so that it's possible for programs
+that use it to play multiple songs at once.  (This doesn't affect the
+behavior of the Linux programs in this package at all. They still just
+play one thing at a time.)
+
+gnosefart updated to 1.3
+
 2.4-mls (13 Sept 2005)
 
 Updated nosefart code for gcc-4.0.

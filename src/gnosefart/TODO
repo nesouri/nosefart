@@ -1,1 +1,4 @@
-No ideas. :-)
+Recover all the info lines.
+
+Rewrite so that it does NSF stuff directly rather than going through
+nosefart.

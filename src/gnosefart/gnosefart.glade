@@ -1001,7 +1001,7 @@
   <property name="width_request">480</property>
   <property name="height_request">480</property>
   <property name="visible">True</property>
-  <property name="title" translatable="yes">dialog2</property>
+  <property name="title" translatable="yes">Gnosefart Help</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -1187,7 +1187,7 @@ If you find a bug or have a feature request, please write Matthew Strait at &lt;
 
 <widget class="GtkDialog" id="nonosefart_error">
   <property name="visible">True</property>
-  <property name="title" translatable="yes">File Not Found</property>
+  <property name="title" translatable="yes">Nosefart Not Found</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -1267,7 +1267,7 @@ If you find a bug or have a feature request, please write Matthew Strait at &lt;
   <property name="width_request">500</property>
   <property name="height_request">480</property>
   <property name="visible">True</property>
-  <property name="title" translatable="yes">dialog2</property>
+  <property name="title" translatable="yes">About Gnosefart</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -1763,7 +1763,9 @@ Public License instead of this License.
 	  <property name="label" translatable="yes">I can't seem to play music.  Please make sure that:
 
 1) You have your sound card properly configured 
-2) No other program is using the sound card</property>
+2) No other program is using the sound card
+
+The solution to this is usually to &quot;killlall esd&quot;.  When you are done with gnosefart, run &quot;esd&quot; to allow other applications to play sound again.  (Hopefully in the future gnosefart will work without the need for this workaround.)</property>
 	  <property name="use_underline">False</property>
 	  <property name="use_markup">False</property>
 	  <property name="justify">GTK_JUSTIFY_LEFT</property>

@@ -33,6 +33,7 @@
 #include <sys/resource.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <pwd.h>
 
 #include "callbacks.h"
 #include "interface.h"
@@ -64,7 +65,8 @@ static int rfnfid = 0;
 void dostatusbar(char * info)
 {
 	static char myinfo[81] = "\0";
-	
+
+	// if things have changed	
 	if(strcmp(myinfo, info) && statusbar1){
 		char p[800];
 		char * basename = strrchr(filename, '/');
@@ -102,7 +104,7 @@ int main_readfromnosefart()
 	int gotinhere = 0;
 
 	/* If not, complain.  Probably the sound card is blocked. */
-	if(gotnothing == 20){
+	if(gotnothing == 20){ // XXX what is 20?  It doesn't seem like this happens.
 		if(!audio_error) audio_error = create_audio_error();
 		gtk_widget_show(audio_error);
 	}
@@ -144,20 +146,29 @@ int main_readfromnosefart()
 void intro_readfromnosefart()
 {
 	char * foo = NULL;
+	char scratch[1024];
 	FILE * pipefile = fdopen(readingpipe[0], "r");
 	int i, f;
 
-	free(artist); free(copyright); free(songname);
-	songname = copyright = artist = NULL;
+	if(artist)   {free(artist);    artist    = NULL;}
+	if(copyright){free(copyright); copyright = NULL;} // <-- profound!
+	if(songname) {free(songname);  songname  = NULL;}
 
 	while(1){
 		getline(&foo, &f, pipefile);
-		free(songname);
+		if(songname) free(songname);
 		songname = malloc(strlen(foo)+1);
 
 		if(sscanf(foo, "Song name: %[^\n]12", songname)){
 			free(foo); foo = NULL;
 			break;
+		}else if(!strcmp("/dev/dsp is busy.\n", foo)){
+			free(foo); foo = NULL;
+			if(!audio_error) audio_error = create_audio_error();
+			gtk_widget_show(audio_error);
+			if(filename) free(filename);
+			filename = NULL;
+			return;
 		}else{
 			free(foo); foo = NULL;
 		}
@@ -166,7 +177,7 @@ void intro_readfromnosefart()
 	getline(&foo, &f, pipefile);
 	artist = malloc(strlen(foo)+1);
 	sscanf(foo, "Artist: %[^\n]12", artist);
-	free(foo); foo = NULL;
+	if(foo) {free(foo); foo = NULL;}
 
 	getline(&foo, &f, pipefile);
 	copyright = malloc(strlen(foo)+1);
@@ -248,8 +259,7 @@ void getnumtracksandhandleit()
 	strcpy(tempfn, "/tmp/nosefart.XXXXXX");
 	mkstemp(tempfn);
 
-	snprintf(cmd, 254, "nosefart -i %s | grep Number | cut -d: -f2 > %s", 
-		filename, tempfn);
+	snprintf(cmd, 254, "nosefart -i %s | grep Number | cut -d: -f2 > %s", filename, tempfn);
 	system(cmd);
 
 	tempfile = fopen(tempfn, "r");
@@ -293,7 +303,7 @@ void play()
 	{
 		filename = NULL;
 		if(!error) error = create_error_window();
-		fprintf(stderr, "PLAYPLAYPLAYPLAYPLAY\n");
+		fprintf(stderr, "PLAYPLAYPLAYPLAYPLAY\n"); // XXX ?
 		gtk_widget_show(error);
 		return;
 	}
@@ -315,10 +325,8 @@ void play()
 		int argp = 4; /* next available arg */
 
 		int i;
-		for(i = 1; i <= 6; i++)
-		{
-			if(!channels[i])
-			{
+		for(i = 1; i <= 6; i++){
+			if(!channels[i]){
 				char * newarg = malloc(3);
 				snprintf(newarg, 3, "-%d", i);
 				args[argp] = newarg;
@@ -351,7 +359,6 @@ void play()
 			args[argp] = "-l";
 			argp++;
 			args[argp] = s;
-
 		}
 		else if(mode == doreps)
 		{
@@ -374,10 +381,7 @@ void play()
 	free(t); 
 	free(s); 
 	free(r);
-
 }
-
-
 
 int wakeupandplay()
 {
@@ -388,10 +392,11 @@ int wakeupandplay()
 		{
 			gtk_timeout_remove(rfnfid);
 			incrementtrack();
-			play();
+			if(filename) play(); // play might discover that it can't play
+					     // and set filename to NULL
+			else return 1;
 		}
 	}
-
 	return 1;
 }
 
@@ -506,6 +511,14 @@ void open_pushed(GtkButton *button, gpointer user_data)
       gtk_widget_show(fs);
 }
 
+// Should probably be done in a better way...
+void savedirectory(char * filename)
+{
+	char cmd[1024];
+	snprintf(cmd, 1023, "echo `dirname %s`/ > ~/.gnosefart", filename);
+	system(cmd);
+}
+
 void handle_fileselection()
 {
         filename = (gchar *)gtk_file_selection_get_filename(GTK_FILE_SELECTION(fs));
@@ -519,9 +532,12 @@ void handle_fileselection()
 		return;
 	}	
 
+	savedirectory(filename);
+
 	gtk_widget_hide(fs);
         play();
-	getnumtracksandhandleit();
+	if(filename) // play might have bombed 
+		getnumtracksandhandleit();
 }
 
 void on_fileselection_response(GtkDialog *dialog, gint response_id, gpointer user_data)
@@ -638,8 +654,36 @@ void
 on_fileselection_map                   (GtkWidget       *widget,
                                         gpointer         user_data)
 {
-	if(oldfilename) 
+	if(oldfilename) // get directory from last file selected
 		gtk_file_selection_set_filename (GTK_FILE_SELECTION(widget), oldfilename);
+	else // attempt to get directory from last session
+	{
+		struct passwd * pw;
+		struct stat scratchstat;
+		FILE * f;	
+		char olddir[1024];
+		char conffilename[1024];
+		int uid = geteuid();
+
+		while(1)
+		{
+			pw = getpwent();
+			if(!pw) return; // give up entirely if the user isn't found
+			if(pw->pw_uid == uid) break; // got the user
+		}
+		snprintf(conffilename, 1023, "%s/.gnosefart", pw->pw_dir);
+
+		if(-1 == stat(conffilename, &scratchstat))
+		{
+			fprintf(stderr, ".gnosefart not found\n");
+			return;
+		}
+
+		f = fopen(conffilename, "r");
+		fscanf(f, "%s", &olddir);
+		gtk_file_selection_set_filename (GTK_FILE_SELECTION(widget), olddir); 
+		fclose(f);
+	}
 }
 
 void

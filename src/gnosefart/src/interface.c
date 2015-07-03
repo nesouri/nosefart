@@ -567,7 +567,7 @@ create_dialog2 (void)
 
   dialog2 = gtk_dialog_new ();
   gtk_widget_set_size_request (dialog2, 480, 480);
-  gtk_window_set_title (GTK_WINDOW (dialog2), _("dialog2"));
+  gtk_window_set_title (GTK_WINDOW (dialog2), _("Gnosefart Help"));
   gtk_window_set_type_hint (GTK_WINDOW (dialog2), GDK_WINDOW_TYPE_HINT_DIALOG);
 
   dialog_vbox1 = GTK_DIALOG (dialog2)->vbox;
@@ -670,7 +670,7 @@ create_nonosefart_error (void)
   GtkWidget *button1;
 
   nonosefart_error = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (nonosefart_error), _("File Not Found"));
+  gtk_window_set_title (GTK_WINDOW (nonosefart_error), _("Nosefart Not Found"));
   gtk_window_set_destroy_with_parent (GTK_WINDOW (nonosefart_error), TRUE);
   gtk_window_set_type_hint (GTK_WINDOW (nonosefart_error), GDK_WINDOW_TYPE_HINT_DIALOG);
 
@@ -720,7 +720,7 @@ create_about_dialog (void)
 
   about_dialog = gtk_dialog_new ();
   gtk_widget_set_size_request (about_dialog, 500, 480);
-  gtk_window_set_title (GTK_WINDOW (about_dialog), _("dialog2"));
+  gtk_window_set_title (GTK_WINDOW (about_dialog), _("About Gnosefart"));
   gtk_window_set_type_hint (GTK_WINDOW (about_dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 
   vbox2 = GTK_DIALOG (about_dialog)->vbox;
@@ -782,7 +782,7 @@ create_audio_error (void)
   vbox3 = GTK_DIALOG (audio_error)->vbox;
   gtk_widget_show (vbox3);
 
-  label20 = gtk_label_new (_("I can't seem to play music.  Please make sure that:\n\n1) You have your sound card properly configured \n2) No other program is using the sound card"));
+  label20 = gtk_label_new (_("I can't seem to play music.  Please make sure that:\n\n1) You have your sound card properly configured \n2) No other program is using the sound card\n\nThe solution to this is usually to \"killlall esd\".  When you are done with gnosefart, run \"esd\" to allow other applications to play sound again.  (Hopefully in the future gnosefart will work without the need for this workaround.)"));
   gtk_widget_show (label20);
   gtk_box_pack_start (GTK_BOX (vbox3), label20, FALSE, FALSE, 0);
   GTK_WIDGET_SET_FLAGS (label20, GTK_CAN_FOCUS);
