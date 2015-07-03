@@ -42,7 +42,6 @@
 #include "nes6502.h"
 #include "types.h"
 #include "nsf.h"
-#include "config.h"
 
 static int quiet = 0;
 
