@@ -13,7 +13,7 @@ WANT_DEBUG=TRUE
 # Acting on the configuration
 
 NAME = nosefart
-VERSION = 2.3-mls
+VERSION = 2.8-mls
 
 BUILDTOP = nsfobj
 BUILDDIR = $(BUILDTOP)/build
@@ -75,10 +75,11 @@ $(BUILDDIR):
 	mkdir -p $(sort $(dir $(ALL_OBJECTS)))
 #	-mkdir -p $(BUILDDIR)/cpu/nes6502 $(BUILDDIR)/machine $(BUILDDIR)/sndhrdw $(BUILDDIR)/linux  $(BUILDDIR)/nsfinfo
 
+
 $(BUILDTOP)/config.h: $(BUILDDIR) Makefile
-	@echo "[$@]"
-	@echo "#define VERSION \"$(VERSION)\"" > $@
-	@echo "#define NAME \"$(NAME)\"" >> $@
+	echo "[$@]"
+	echo "#define VERSION \"$(VERSION)\"" > $@
+	echo "#define NAME \"$(NAME)\"" >> $@
 
 $(BUILDDIR)/dep: $(BUILDTOP)/config.h
 	$(CC) $(NSFINFO_CFLAGS) $(CFLAGS) -M $(SOURCES) > $@
@@ -104,11 +105,14 @@ clean:
 ################################
 # The real heavy lifting
 
-$(BUILDTOP)/$(NAME): $(OBJECTS)
+$(BUILDTOP)/$(NAME): $(OBJECTS)  $(BUILDTOP)/config.h
+	mkdir -p $(sort $(dir $(ALL_OBJECTS)))
 	$(CC) $(NSFINFO_CFLAGS) $(LDFLAGS) -o $@ $^
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.c 
+$(BUILDDIR)/%.o: $(SRCDIR)/%.c $(BUILDTOP)/config.h
+	mkdir -p $(sort $(dir $(ALL_OBJECTS)))
 	$(CC)  $(NSFINFO_CFLAGS) -o $@ -c $<
 
-$(BUILDDIR)/%-acc.o: $(SRCDIR)/%.c
+$(BUILDDIR)/%-acc.o: $(SRCDIR)/%.c  $(BUILDTOP)/config.h
+	mkdir -p $(sort $(dir $(ALL_OBJECTS)))
 	$(CC) $(NSFINFO_CFLAGS) -o $@ -c $<
