@@ -20,7 +20,7 @@
 ** log.h
 **
 ** Error logging header file
-** $Id: log.h,v 1.4 2000/06/09 15:12:25 matt Exp $
+** $Id: log.h,v 1.1 2003/04/08 20:46:46 ben Exp $
 */
 
 #ifndef _LOG_H_
@@ -37,6 +37,9 @@ extern void log_printf(const char *format, ...);
 
 /*
 ** $Log: log.h,v $
+** Revision 1.1  2003/04/08 20:46:46  ben
+** add new input for NES music file.
+**
 ** Revision 1.4  2000/06/09 15:12:25  matt
 ** initial revision
 **

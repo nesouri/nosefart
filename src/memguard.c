@@ -22,7 +22,7 @@
 ** memory allocation wrapper routines
 **
 ** NOTE: based on code (c) 1998 the Retrocade group
-** $Id: memguard.c,v 1.8 2000/06/26 04:54:48 matt Exp $
+** $Id: memguard.c,v 1.1 2003/04/08 20:46:46 ben Exp $
 */
 
 #include "types.h"
@@ -363,6 +363,9 @@ void mem_checkblocks(void)
 
 /*
 ** $Log: memguard.c,v $
+** Revision 1.1  2003/04/08 20:46:46  ben
+** add new input for NES music file.
+**
 ** Revision 1.8  2000/06/26 04:54:48  matt
 ** simplified and made more robust
 **

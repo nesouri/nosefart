@@ -1,0 +1,28 @@
+1.1 - ?? May 2004
+
+File selection behavior improved.
+
+Song info is now displayed.
+
+Other minor fixes.
+
+
+1.0 - 23 Apr 2004 
+
+Now reads from the backend and displays the number of tracks, the
+current time and the total time.
+
+Improved behavior of spinbuttons.
+
+Help and About can be brought up multiple times now.
+
+The main window is no longer resizable.
+
+Recognizes when it can't play and complains.
+
+Adds itself to the system menu, at least in Redhat 9.
+
+
+0.9 - 16 Apr 2004
+
+Initial release.
