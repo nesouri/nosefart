@@ -541,7 +541,7 @@ static int read_track_list(char **trackList, int max, int *from, int *to)
   return 1;
 }
 
-int nsf_info_main(int na, char **a)
+int main(int na, char **a)
 {
   int i;
   const char * iname;
@@ -843,5 +843,5 @@ unsigned int time_info(char * filename, int track)
         argv[2] = argv1;
         argv[3] = "--AT";
 
-        return nsf_info_main(4, argv);
+        return main(4, argv);
 }
