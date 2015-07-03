@@ -1035,9 +1035,9 @@ void apu_process(void *buffer, int num_samples)
 
       /* signed 16-bit output, unsigned 8-bit */
       if (16 == apu->sample_bits)
-         *((int16 *) buffer)++ = (int16) accum;
+         *(int16 *)(buffer)++ = (int16) accum;
       else
-         *((uint8 *) buffer)++ = (accum >> 8) ^ 0x80;
+         *(uint8 *)(buffer)++ = (accum >> 8) ^ 0x80;
    }
 
    /* resync cycle counter */

@@ -443,7 +443,8 @@ static char * clean_string(char *d, const char *s, int max)
   for (; i<=max; ++i) {
     d[i] = 0;
   }
-  return d;
+
+  return (char*)d;
 }
 
 static int get_integer(const char * arg, const char * opt, int * pv)
@@ -631,9 +632,9 @@ int nsf_info_main(int na, char **a)
 
   nsf = (nsf_t *)buffer;
   cursong = nsf->start_song % (nsf->num_songs+1);
-  clean_string(nsf->song_name, nsf->song_name, sizeof(nsf->song_name));
-  clean_string(nsf->artist_name, nsf->artist_name, sizeof(nsf->artist_name));
-  clean_string(nsf->copyright, nsf->copyright, sizeof(nsf->copyright));
+  clean_string((char*)nsf->song_name, (char*)nsf->song_name, sizeof(nsf->song_name));
+  clean_string((char*)nsf->artist_name, (char*)nsf->artist_name, sizeof(nsf->artist_name));
+  clean_string((char*)nsf->copyright, (char*)nsf->copyright, sizeof(nsf->copyright));
   memset(times,0,sizeof(times));
 
   /* Setup variable */
@@ -763,21 +764,21 @@ int nsf_info_main(int na, char **a)
     } else if (!strcmp(arg,"--nl")) {
       fputs("\n",stdout);
     } else if (!strcmp(arg,"--n")) {
-      fputs(nsf->song_name,stdout);
+      fputs((char*)nsf->song_name,stdout);
     } else if (err = get_string(arg, "--n=",
-				nsf->song_name,
+				(char*)nsf->song_name,
 				sizeof(nsf->song_name)), !err) {
       ; /* Nothing more to do. */
     } else if (!strcmp(arg,"--a")) {
-      fputs(nsf->artist_name,stdout);
+      fputs((char*)nsf->artist_name,stdout);
     } else if (err = get_string(arg, "--a=",
-				nsf->artist_name,
+				(char*)nsf->artist_name,
 				sizeof(nsf->artist_name)), !err) {
       ; /* Nothing more to do. */
     } else if (!strcmp(arg,"--c")) {
-      fputs(nsf->copyright,stdout);
+      fputs((char*)nsf->copyright,stdout);
     } else if (err = get_string(arg, "--c=",
-				nsf->copyright,
+				(char*)nsf->copyright,
 				sizeof(nsf->copyright)), !err) {
       ; /* Nothing more to do. */
     } else if (!strcmp(arg,"--w") || strstr(arg,"--w=") == arg) {

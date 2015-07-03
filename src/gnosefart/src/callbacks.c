@@ -47,7 +47,8 @@ static int pid = 0, track = 1;
 static int channels[7] = { 0xdeadbeef, 1, 1, 1, 1, 1, 1 };
 gchar * filename = NULL, * oldfilename = NULL;
 
-static enum { doforever, doseconds, doreps } mode = doforever;
+// these are the defaults
+static enum { doforever, doseconds, doreps } mode = doreps;
 static int seconds = 60, reps = 2;
 
 static int writingpipe[2], readingpipe[2];
@@ -69,11 +70,14 @@ void dostatusbar(char * info)
 		char * basename = strrchr(filename, '/');
 		basename++;
 
-		snprintf(p, 799, "Game: %s\n"
-				 "Artist: %s\n"
-				 "Copyright: %s\n"
+		// Changes to GTK+ messed this up.
+		snprintf(p, 799, 
+			//	 "Game: %s\r\n"
+			//	 "Artist: %s\r\n"
+			//	 "Copyright: %s\r\n"
 				 "Playing track %d of %d: %s",
-			songname, artist, copyright, track, numtracks, info);
+			//	 songname, artist, copyright, 
+			track, numtracks, info);
 
 		gtk_statusbar_pop(GTK_STATUSBAR(statusbar1), 0);
 		gtk_statusbar_push(GTK_STATUSBAR(statusbar1), 0, p);
