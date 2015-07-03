@@ -1,3 +1,13 @@
+2.9-mls - 2013-05-10
+
+GCC now requires that -lm comes after the object name.  Trivial change
+to Makefile to allow compilation.  Thanks to Gall for reporting this.
+
+2.8-mls
+
+GNU Make 3.82 broke the Makefile so that it no longer made the necessary
+build directories. Put in a simple hack to make it keep working.
+
 2.7-mls
 
 Added 16-bit fixes and -B switch to Linux nosefart by Chris King.

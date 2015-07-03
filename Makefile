@@ -107,7 +107,7 @@ clean:
 
 $(BUILDTOP)/$(NAME): $(OBJECTS)  $(BUILDTOP)/config.h
 	mkdir -p $(sort $(dir $(ALL_OBJECTS)))
-	$(CC) $(NSFINFO_CFLAGS) $(LDFLAGS) -o $@ $^
+	$(CC) $(NSFINFO_CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.c $(BUILDTOP)/config.h
 	mkdir -p $(sort $(dir $(ALL_OBJECTS)))
